@@ -1,8 +1,16 @@
 """Classes for melon orders."""
 import random
 from datetime import datetime
+# from salespeople import TooManyMelonsError
 
-class AbstractMelonOrder:
+class TooManyMelonsError(ValueError):
+       def __init__(self, message="Error too many melons, No more than 100 melons"):
+        self.message = message
+        super().__init__(self.message)
+        # print("No more then 100 melons")
+        
+
+class AbstractMelonOrder():
     """An abstract base class that other Melon Orders inherit from."""
 
     def __init__(self, species, qty, order_type, tax):
@@ -10,6 +18,8 @@ class AbstractMelonOrder:
 
         self.species = species
         self.qty = qty
+        if self.qty > 100: # If there are more than 100, crash the program
+            raise TooManyMelonsError()
         self.shipped = False
         self.order_type = order_type
         self.tax = tax
@@ -97,6 +107,9 @@ class GovernmentMelonOrder(AbstractMelonOrder):
     def mark_inspection(self, passed):
         
         self.passed_inspection = passed
+
+
+
 
     
 
